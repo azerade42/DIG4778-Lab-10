@@ -17,6 +17,8 @@ public class Pathfinding : MonoBehaviour
     private Vector2Int next;
     private Vector2Int current;
 
+    [HideInInspector] public Vector2Int NewObstacleLocation;
+
     private Vector2Int[] directions = new Vector2Int[]
     {
         new Vector2Int(1, 0),
@@ -25,26 +27,11 @@ public class Pathfinding : MonoBehaviour
         new Vector2Int(0, -1)
     };
 
-    // private int[,] grid = new int[,]
-    // {
-    //     { 0, 1, 0, 0, 0 },
-    //     { 0, 1, 0, 1, 0 },
-    //     { 0, 0, 0, 1, 0 },
-    //     { 0, 1, 1, 1, 0 },
-    //     { 0, 0, 0, 0, 0 }
-    // };
-
     private int[,] grid;
 
     private void Start()
     {
-        GenerateRandomGrid(gridWidth, gridLength, obstacleChance);
-        
-        FindPath(start, goal);
-    }
-
-    private void Update()
-    {
+        GenerateNewGrid();
     }
 
     private void OnDrawGizmos()
@@ -89,6 +76,8 @@ public class Pathfinding : MonoBehaviour
     {
         Queue<Vector2Int> frontier = new Queue<Vector2Int>();
         frontier.Enqueue(start);
+        
+        path = new List<Vector2Int>();
 
         Dictionary<Vector2Int, Vector2Int> cameFrom = new Dictionary<Vector2Int, Vector2Int>();
         cameFrom[start] = start;
@@ -162,8 +151,15 @@ public class Pathfinding : MonoBehaviour
 
     public void AddObstacle(Vector2Int position)
     {
-        grid[position.x, position.y] = 1;
+        grid[position.y, position.x] = 1;
 
+        FindPath(start, goal);
+    }
+
+    public void GenerateNewGrid()
+    {
+        GenerateRandomGrid(gridWidth, gridWidth, obstacleChance);
+        
         FindPath(start, goal);
     }
 }

@@ -1,18 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
-public class PathfindingEditor : MonoBehaviour
+
+[CustomEditor(typeof(Pathfinding))]
+public class PathfindingEditor : Editor
 {
-    // Start is called before the first frame update
-    void Start()
+    public override void OnInspectorGUI()
     {
-        
-    }
+        base.OnInspectorGUI();
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        SerializedProperty obstacleLocationProperty = serializedObject.FindProperty("NewObstacleLocation");
+
+        if (obstacleLocationProperty != null)
+        {
+            EditorGUILayout.PropertyField(obstacleLocationProperty);
+            obstacleLocationProperty.serializedObject.ApplyModifiedProperties();
+        }
+
+        // Draw selection GUI in horizontal pattern
+        using (new EditorGUILayout.HorizontalScope())
+        {
+            Pathfinding pathfinding = (Pathfinding)serializedObject.targetObject;
+            if (GUILayout.Button("Place obstacle"))
+            {
+                pathfinding.AddObstacle(obstacleLocationProperty.vector2IntValue);
+            }
+
+            if (GUILayout.Button("Generate new grid"))
+            {
+                pathfinding.GenerateNewGrid();
+            }
+        }
     }
 }
