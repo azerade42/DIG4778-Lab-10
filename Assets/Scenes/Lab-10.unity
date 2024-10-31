@@ -151,11 +151,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f05120da439c8443b3f032334c554dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gridWidth: 5
-  gridLength: 5
+  gridWidth: 8
+  gridLength: 8
   obstacleChance: 15
   start: {x: 0, y: 1}
-  goal: {x: 3, y: 4}
+  goal: {x: 20, y: 20}
   NewObstacleLocation: {x: 0, y: 0}
 --- !u!4 &249908059
 Transform:

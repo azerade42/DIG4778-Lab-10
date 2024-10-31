@@ -151,6 +151,12 @@ public class Pathfinding : MonoBehaviour
 
     public void AddObstacle(Vector2Int position)
     {
+        if (!IsInBounds(position))
+        {
+            Debug.LogWarning("Could not add obstacle to grid because position is OOB.");
+            return;
+        }
+        
         grid[position.y, position.x] = 1;
 
         FindPath(start, goal);
